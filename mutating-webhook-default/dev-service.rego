@@ -50,6 +50,7 @@ patch[[
     # delete/connect operations.)
     
     need_patch
+    not need_annotations
     need_lb_annotations
     # If the resource has the "test-mutation" annotation key, the patch will be
     # generated and applied to the resource.   
@@ -90,8 +91,8 @@ is_target_service {
 is_service { input.request.object.kind == "Service" }
 is_loadbalancer { input.request.object.spec.type == "LoadBalancer" }
 
-need_annotations { object.get(input.request.object.metadata,"anntations",null) == null }
+need_annotations { object.get(input.request.object.metadata,"annotations",null) == null }
 need_lb_annotations { 
-    need_annotations
+    not need_annotations
     object.get(input.request.object.metadata.annotations,"service.beta.kubernetes.io/kinx-load-balancer-backend-protocol",null) == null 
 }
